@@ -1,0 +1,27 @@
+name: Build Kernel - alioth
+on:
+  workflow_dispatch:
+
+jobs:
+  Build-Kernel:
+    strategy:
+      fail-fast: false
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+    - name: Build Kernel
+      uses: angelokimhui/kernel_build_action@python2
+      with:
+          kernel-url: https://github.com/angelokimhui/android_kernel_xiaomi_sm8250-miui
+          kernel-branch: main
+          config: vendor/alioth_defconfig
+          arch: arm64
+          aosp-gcc: true
+          aosp-clang: true
+          android-version: 15
+          python-27: true
+          aosp-clang-version: r498229b
+          anykernel3: true
+          extra-cmd: LLVM_IAS=1

@@ -1,4 +1,4 @@
-name: Build Kernel
+name: Build Kernel - apollo
 on:
   workflow_dispatch:
 
