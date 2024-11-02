@@ -541,7 +541,6 @@ int schedtune_cpu_boost_with(int cpu, struct task_struct *p)
 
 static inline int schedtune_adj_ta(struct task_struct *p)
 {
-	struct schedtune *st;
 	int adj = p->signal->oom_score_adj;
 
 	/* We only care about adj == 0 */
