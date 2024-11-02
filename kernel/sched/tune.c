@@ -539,6 +539,22 @@ int schedtune_cpu_boost_with(int cpu, struct task_struct *p)
 	return max(bg->boost_max, task_boost);
 }
 
+static inline int schedtune_adj_ta(struct task_struct *p)
+{
+	struct schedtune *st;
+	int adj = p->signal->oom_score_adj;
+
+	/* We only care about adj == 0 */
+	if (adj != 0)
+		return 0;
+
+	/* Don't touch kthreads */
+	if (p->flags & PF_KTHREAD)
+		return 0;
+
+	return 0;
+}
+
 int schedtune_task_boost(struct task_struct *p)
 {
 	struct schedtune *st;
@@ -550,7 +566,7 @@ int schedtune_task_boost(struct task_struct *p)
 	/* Get task boost value */
 	rcu_read_lock();
 	st = task_schedtune(p);
-	task_boost = st->boost;
+	task_boost = max(st->boost, schedtune_adj_ta(p));
 #if IS_ENABLED(CONFIG_MIHW)
 	if (sched_boost_top_app()) {
 		if (1 == st->sched_boost_no_override)
