@@ -12,7 +12,7 @@ jobs:
 
     steps:
     - name: Build Kernel
-      uses: angelokimhui/kernel_build_action@python2
+      uses: angelokimhui/kernel_build_action@python2-nodtbo
       with:
           kernel-url: https://github.com/angelokimhui/android_kernel_xiaomi_sm8250-miui
           kernel-branch: main
